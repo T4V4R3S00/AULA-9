@@ -1,38 +1,83 @@
 @{
-    ViewData["Title"] = "Boletim Escolar";
+    ViewData["Title"] = "Boletim Escolar Completo";
+    
+    // Variáveis para calcular a média geral das notas
+    double somaNotas = 0;
+    int totalDisciplinas = ViewBag.Disciplinas.Count;
 }
 
 <div class="container mt-5">
-    <h2 class="text-secondary">Meu Boletim Escolar</h2>
+    <h2 class="text-secondary mb-4">Meu Boletim Escolar</h2>
     
-    <table class="table table-bordered mt-3">
+    <table class="table table-bordered shadow-sm">
         <thead class="table-dark">
             <tr>
                 <th>Disciplina</th>
                 <th>Nota</th>
                 <th>Status</th>
+                <th>Classificação</th>
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < ViewBag.Disciplinas.Count; i++)
+            @for (int i = 0; i < totalDisciplinas; i++)
             {
-                string status = "Aprovado";
-                string classeBadge = "badge bg-success";
+                double notaAtual = ViewBag.Notas[i];
+                somaNotas += notaAtual; // Soma a nota para o cálculo da média posterior
 
-                if (ViewBag.Notas[i] < 6.0)
+                // 1. Use @if para exibir "Aprovado" (verde) ou "Reprovado" (vermelho)
+                string status = "";
+                string classeBadge = "";
+
+                if (notaAtual >= 6.0)
                 {
-                    status = "Retido";
-                    classeBadge = "badge bg-danger";
+                    status = "Aprovado";
+                    classeBadge = "badge bg-success"; // Verde
+                }
+                else
+                {
+                    status = "Reprovado";
+                    classeBadge = "badge bg-danger"; // Vermelho
+                }
+
+                // 2. Use @switch para classificar: A (>=9), B (>=7), C (>=5), D (<5)
+                string classificacao = "";
+                switch (notaAtual)
+                {
+                    case var n when n >= 9.0:
+                        classificacao = "A";
+                        break;
+                    case var n when n >= 7.0:
+                        classificacao = "B";
+                        break;
+                    case var n when n >= 5.0:
+                        classificacao = "C";
+                        break;
+                    default:
+                        classificacao = "D";
+                        break;
                 }
 
                 <tr>
                     <td>@ViewBag.Disciplinas[i]</td>
-                    <td>@ViewBag.Notas[i].ToString("N1")</td>
+                    <td>@notaAtual.ToString("N1")</td>
                     <td>
                         <span class="@classeBadge">@status</span>
                     </td>
+                    <td class="text-center fw-bold">@classificacao</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    @{
+        // Calcule e exiba a média geral no final da tabela
+        double mediaGeral = totalDisciplinas > 0 ? somaNotas / totalDisciplinas : 0;
+    }
+
+    <div class="mt-3 p-3 bg-light border rounded d-flex justify-content-between align-items-center">
+        <span class="fs-5"><strong>Média Geral do Semestre:</strong></span>
+        <span class="fs-4 fw-bold @(mediaGeral >= 6.0 ? "text-success" : "text-danger")">
+            @mediaGeral.ToString("N1")
+        </span>
+    </div>
 </div>
