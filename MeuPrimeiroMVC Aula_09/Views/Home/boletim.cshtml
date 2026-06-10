@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Boletim Escolar";
+}
+
+<div class="container mt-5">
+    <h2 class="text-secondary">Meu Boletim Escolar</h2>
+    
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Disciplina</th>
+                <th>Nota</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < ViewBag.Disciplinas.Count; i++)
+            {
+                string status = "Aprovado";
+                string classeBadge = "badge bg-success";
+
+                if (ViewBag.Notas[i] < 6.0)
+                {
+                    status = "Retido";
+                    classeBadge = "badge bg-danger";
+                }
+
+                <tr>
+                    <td>@ViewBag.Disciplinas[i]</td>
+                    <td>@ViewBag.Notas[i].ToString("N1")</td>
+                    <td>
+                        <span class="@classeBadge">@status</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

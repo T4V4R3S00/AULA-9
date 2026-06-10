@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Sobre o Projeto";
+}
+
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 border">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold text-primary">Sobre o Nosso Projeto MVC</h1>
+            <p class="col-md-8 fs-4 mt-3">
+                Este sistema foi desenvolvido durante as aulas práticas de programação para compreender a arquitetura <strong>MVC (Model-View-Controller)</strong> no ecossistema .NET.
+            </p>
+            <hr class="my-4">
+            <h5>Recursos Implementados:</h5>
+            <ul>
+                <li>Listagem e detalhes de Alunos utilizando <code>ViewBag</code></li>
+                <li>Gerenciamento e exibição de listas de Produtos e Preços</li>
+                <li>Menu de navegação global dinâmico com <code>Tag Helpers</code></li>
+            </ul>
+            <p class="text-muted mt-4">Desenvolvido em: @DateTime.Now.Year</p>
+        </div>
+    </div>
+</div>
